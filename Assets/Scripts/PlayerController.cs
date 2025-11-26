@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour
     void Movement()
     {
         Vector3 characterMovement = new Vector3(_moveInput.x, 0, _moveInput.y);
-
         _characterController.Move(characterMovement * _speed * Time.deltaTime);
     }
 
@@ -79,7 +78,6 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        Debug.Log("Salto");
         _playerGravity.y = Mathf.Sqrt(_jumpHeight * -2 * _gravity);
         _characterController.Move(_playerGravity * Time.deltaTime);
     }
