@@ -72,10 +72,12 @@ public class PlayerController : MonoBehaviour
         if(direction != Vector3.zero)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-            float smoothAngle = Mathf.SmoothDampAngle(_mainCamera.transform.eulerAngles.y, targetAngle, ref _currentVelocity, _smoothTime);
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _currentVelocity, _smoothTime);
 
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
-            _mainCamera.transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
+            Vector3 targetDirection = Quaternion.Euler(0, transform.rotation.y, 0) * Vector3.forward;
+
+            _characterController.Move(targetDirection * Time.deltaTime);
         }
         
         _characterController.Move(direction * _speed * Time.deltaTime);
