@@ -60,19 +60,15 @@ public class PlayerController : MonoBehaviour
             _animator.SetTrigger("hasJumped");
             Jump();
         }
-
-        //_animator.SetBool("isGrounded", !IsGrounded());
     }
 
     void Movement()
     {
         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
-        _characterController.Move(direction * _speed * Time.deltaTime);
+        
+        _animator.SetFloat("Horizontal", _moveInput.x);
+        _animator.SetFloat("Vertical", direction.magnitude * _moveInput.y);
 
-        _animator.SetFloat("Horizontal", direction.x);
-        _animator.SetFloat("Vertical", direction.magnitude);
-
-        //Queda acabar esto
         if(direction != Vector3.zero)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
@@ -80,9 +76,9 @@ public class PlayerController : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
             _mainCamera.transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
-            //Vector3 newDirection = new Vector3(smoothAngle, 0, 0);
-            //_characterController.Move(smoothAngle * Time.deltaTime);
         }
+        
+        _characterController.Move(direction * _speed * Time.deltaTime);
     }
 
     bool IsGrounded()
